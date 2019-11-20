@@ -17,7 +17,7 @@ function Login(props) {
     return (
         <>
             <form className='login-form' onSubmit={handleSubmit}>
-                <label>Enter Your Auth token</label>
+                <label>Enter Your Auth Token</label>
                 <input
                     value={userToken}
                     onChange={handleTokenChange}

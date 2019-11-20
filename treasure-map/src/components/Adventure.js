@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import traverse from '../functions/Traverse.js';
 
 function Adventure(props) {
-    const [currMap, setMap] = useState({})
+    const [searchedRooms, setRooms] = useState({})
+    // const [currMap, setMap] = useState({})
     const [currInfo, setCurrInfo] = useState()
 
     useEffect(() => {
@@ -21,10 +23,32 @@ function Adventure(props) {
             })
     }, [props.loggedIn, props.backendUrl] )
 
+    function traverseMap() {
+        if (currInfo && currInfo.title) {
+            setRooms(traverse(currInfo, searchedRooms))
+        }
+    }
+
+    console.log(currInfo);
+    console.log(searchedRooms);
+
     return (
         <div>
-            {currInfo && currInfo}
-            {currMap && currMap}
+            <button onClick={(e) => {
+                e.preventDefault()
+                props.setLocalKey();
+                localStorage.removeItem('key')
+            }}>
+                Logout
+            </button>
+
+            <p>adventure</p>
+
+            <button onClick={traverseMap}>traverseMap</button>
+
+            <div>
+                {searchedRooms[0] && searchedRooms[0].title}
+            </div>
         </div>
     )
 }
