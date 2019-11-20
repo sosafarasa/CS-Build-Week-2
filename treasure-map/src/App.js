@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Login from './components/Login.js';
+import Adventure from './components/Adventure.js';
+
 
 function App() {
+  const [logedIn, setLogedIn] = useState(!!localStorage.getItem("key"))
+  const [backendUrl] = useState('https://lambda-treasure-hunt.herokuapp.com')
+
+  useEffect(() => {
+    if (localStorage.getItem('key')) {
+      setLogedIn(true)
+    } else {
+      setLogedIn(false)
+    }
+  }, [])
+
+  function setLocalKey() {
+    if (localStorage.getItem('key')) {
+      setLogedIn(true)
+    } else {
+      setLogedIn(false)
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {logedIn ? <Adventure logedIn={logedIn} backendUrl={backendUrl} setLocalKey={setLocalKey} /> : <Login setLocalKey={setLocalKey} />}
     </div>
   );
 }
